@@ -12,8 +12,16 @@ namespace AkWWISE.Cli.Commands.Dump
 	[Command("soundbank", Description = "Load one or more WWISE .bnk soundbanks")]
 	public class SoundBankCommand : ICommand
 	{
-		[CommandParameter(0, IsRequired = true, Name = "files", Description = "Files to be loaded by the tool")]
-		public IReadOnlyList<FileInfo> Files { get; set; } 
+		[CommandOption("folders", 'f', Description = "Indicates if the paths specified are folders instead of files")]
+		public bool ScanFolders { get; set; }
+		
+		[CommandParameter(0, IsRequired = true, Name = "items", Description = "Location of the files to be loaded")]
+		public IReadOnlyList<string> Items { get; set; }
+
+		public IEnumerable<FileInfo> Files
+		=> ScanFolders
+			? Items.SelectMany(item => new DirectoryInfo(item).GetFiles("*.bnk"))
+			: Items.Select(item => new FileInfo(item));
 
 		public ValueTask ExecuteAsync(IConsole console)
 		{
@@ -22,6 +30,12 @@ namespace AkWWISE.Cli.Commands.Dump
 			List<AkSoundBank> soundbanks = Files
 				.Select(file => helper.LoadFrom(file))
 				.ToList();
+
+			foreach (AkSoundBank soundbank in soundbanks)
+			{
+				console.Output.WriteLine($"=== {soundbank.BankName} ===");
+			}
+
 
 			return default;
 		}
