@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AkWWISE.Core.DataStruct;
 using AkWWISE.Core.Interfaces;
@@ -130,6 +131,10 @@ namespace AkWWISE.Core.Nodes
 
 		public NodeField<uint> TID(string name, uint value)
 		=> SID(name, value);
+
+		public NodeList<TElement> List<TElement>(string name, int count, Func<TElement> provider)
+		where TElement : NodeElement
+		=> Field(name, new NodeList<TElement>(provider, count));
 
 		protected NodeField<T> Field<T>(string name, T value)
 		=> Set(name, value) as NodeField<T>;

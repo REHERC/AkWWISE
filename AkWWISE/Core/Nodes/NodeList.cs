@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AkWWISE.Core.Nodes
@@ -14,14 +15,15 @@ namespace AkWWISE.Core.Nodes
 		.Cast<TElement>()
 		.ToList();
 
-		public NodeList()
-		: this(null)
+		public NodeList(Func<TElement> provider, int count = 0, NodeElement parent = null)
+		: base(nameof(TElement), parent)
 		{
-		}
+			NodeName = $"{typeof(TElement).Name}[]";
 
-		public NodeList(NodeElement parent = null)
-		: base(FIELD_NAME, parent)
-		{
+			for (int i = 0; i < count; ++i)
+			{
+				Append($"{i}", provider());
+			}
 		}
 
 		IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
