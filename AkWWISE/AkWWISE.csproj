@@ -15,8 +15,6 @@
 		</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<ProductName>wwise</ProductName>
-		<TargetName>$(ProductName)</TargetName>
 	
 </PropertyGroup>
 

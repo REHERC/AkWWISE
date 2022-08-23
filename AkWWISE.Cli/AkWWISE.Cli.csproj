@@ -2,15 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>
-			netcoreapp2.0;
-			netcoreapp2.1;
-			netcoreapp3.0;
 			netcoreapp3.1;
 		</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<ProductName>wwise.cli</ProductName>
-		<TargetName>$(ProductName)</TargetName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">

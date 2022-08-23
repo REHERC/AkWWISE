@@ -21,8 +21,6 @@
 		</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<ProductName>wwise.metadata</ProductName>
-		<TargetName>$(ProductName)</TargetName>
 	</PropertyGroup>
 
 </Project>
