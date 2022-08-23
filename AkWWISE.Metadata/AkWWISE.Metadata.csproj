@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>
+			netstandard2.0;
+			netstandard2.1;
+			net35;
+			net40;
+			net45;
+			net451;
+			net452;
+			net46;
+			net461;
+			net462;
+			net47;
+			net471;
+			net472;
+			net48;
+			net5.0;
+			net6.0;
+		</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<ProductName>wwise.metadata</ProductName>
+		<TargetName>$(ProductName)</TargetName>
+	</PropertyGroup>
+
+</Project>
