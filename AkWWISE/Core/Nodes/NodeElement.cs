@@ -1,27 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Xml.Schema;
 
 namespace AkWWISE.Core.Nodes
 {
-	public abstract class NodeElement : IEnumerable<KeyValuePair<string, object>>
+	public abstract class NodeElement : IEnumerable<KeyValuePair<string, NodeElement>>
 	{
 		#region Fields and Properties
-		private readonly IDictionary<string, object> values = new Dictionary<string, object>();
-
-		protected readonly List<NodeElement> children = new List<NodeElement>();
+		private readonly IDictionary<string, NodeElement> values = new Dictionary<string, NodeElement>();
 
 		public NodeElement Parent { get; protected set; }
 
-		public IList<NodeElement> Children => children.AsReadOnly();
+		public IList<NodeElement> Children => values.Values.ToList().AsReadOnly();
 
 		public string NodeName { get; protected set; }
 		#endregion
 
 		#region Indexer
-		public object this[string key]
+		public NodeElement this[string key]
 		{
-			get => Get<object>(key);
+			get => Get(key);
 			set => Set(key, value);
 		}
 		#endregion
@@ -41,49 +41,53 @@ namespace AkWWISE.Core.Nodes
 		#endregion
 
 		#region Methods
-		public void Append(NodeElement node)
+		public void Append(string name, NodeElement node)
 		{
 			if (node is null)
 			{
 				return;
 			}
-			children.Add(node);
-		}
 
+			Set(name, node);
+		}
 		#region Data Handling 
 		public bool ContainsKey(string key) => values.ContainsKey(key);
 
-		public bool TryGet<T>(string key, out T value)
+		public bool TryGet(string key, out NodeElement value)
 		{
-			if (values.TryGetValue(key, out object result))
+			if (values.TryGetValue(key, out NodeElement result))
 			{
-				value = (T)result;
+				value = result;
 				return true;
 			}
 			value = default;
 			return false;
 		}
 
-		public T Get<T>(string key) => (T)values[key];
+		public NodeElement Get(string key) => values[key];
 
-		public T Set<T>(string key, T value)
+		public NodeElement Set<T>(string key, T value)
 		{
+			NodeElement node = value is NodeElement nodeElement
+				? nodeElement
+				: new NodeField<T>(value);
+
 			if (ContainsKey(key))
 			{
-				values[key] = value;
+				values[key] = node;
 			}
 			else
 			{
-				values.Add(key, value);
+				values.Add(key, node);
 			}
-			return value;
+			return node;
 		}
 
-		public IDictionary<string, object> ToDictionary() => new ReadOnlyDictionary<string, object>(values);
+		public IDictionary<string, NodeElement> ToDictionary() => new ReadOnlyDictionary<string, NodeElement>(values);
 
 		#region Interface Implementations
-		#region IEnumerator<KeyValuePair<string, object>>
-		public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => values.GetEnumerator();
+		#region IEnumerator<KeyValuePair<string, NodeElement>>
+		public IEnumerator<KeyValuePair<string, NodeElement>> GetEnumerator() => values.GetEnumerator();
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		#endregion

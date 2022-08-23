@@ -6,11 +6,7 @@ namespace AkWWISE.Core.Nodes
 	{
 		public const string FIELD_NAME = "field";
 
-		public TData Value
-		{
-			get => Get<TData>(FIELD_NAME);
-			protected set => Set(FIELD_NAME, value);
-		}
+		public TData Value { get; protected set; }
 
 		public NodeField(TData value)
 		: base(FIELD_NAME)
