@@ -5,8 +5,11 @@ namespace AkWWISE.Containers.SoundBank
 {
     public class AkSoundBank : NodeRoot<AkSoundBank>
 	{
-		public AkSoundBank() : base()
+		public string BankName { get; }
+
+		public AkSoundBank(string bankName = "") : base()
 		{
+			BankName = bankName;
 		}
 
 		public override void Visit(IReader reader)
