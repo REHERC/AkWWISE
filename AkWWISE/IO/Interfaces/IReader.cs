@@ -49,9 +49,9 @@ namespace AkWWISE.IO.Interfaces
 
         ushort ReadU16();
 
-        byte ReadS8();
+        sbyte ReadS8();
 
-        sbyte ReadU8();
+        byte ReadU8();
 
         FourCC Read4CC();
 

@@ -132,11 +132,11 @@ namespace AkWWISE.IO
 		public ushort ReadU16()
 		=> Converter.ToUInt16(ReadBytes(DataType.TYPE_U16));
 
-		public byte ReadS8()
-		=> Converter.ToByte(ReadBytes(DataType.TYPE_S8));
+		public sbyte ReadS8()
+		=> Converter.ToSByte(ReadBytes(DataType.TYPE_S8));
 
-		public sbyte ReadU8()
-		=> Converter.ToSByte(ReadBytes(DataType.TYPE_U8));
+		public byte ReadU8()
+		=> Converter.ToByte(ReadBytes(DataType.TYPE_U8));
 
 		public FourCC Read4CC()
 		=> new FourCC(ReadBytes(DataType.TYPE_4CC));
