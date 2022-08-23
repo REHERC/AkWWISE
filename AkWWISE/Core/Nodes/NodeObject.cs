@@ -59,6 +59,29 @@ namespace AkWWISE.Core.Model.Nodes
 		public abstract void Visit(IReader reader);
 		#endregion
 
+		#region Data Handling 
+		public NodeField<T> GetField<T>(string key)
+		{
+			NodeElement element = Get(key);
+			if (element is NodeField<T> field)
+			{
+				return field;
+			}
+			return null;
+		}
+
+		public bool TryGetField<T>(string key, out NodeField<T> value)
+		{
+			if (TryGet(key, out NodeElement result) && result is NodeField<T> field)
+			{
+				value = field;
+				return true;
+			}
+			value = default;
+			return false;
+		}
+		#endregion
+
 		#region Field Append
 		public NodeField<byte[]> GAP(string name, byte[] value)
 		=> Field(name, value);
