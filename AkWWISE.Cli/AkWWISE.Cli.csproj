@@ -9,7 +9,7 @@
 		</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<ProductName>wwisecli</ProductName>
+		<ProductName>wwise.cli</ProductName>
 		<TargetName>$(ProductName)</TargetName>
 	</PropertyGroup>
 
