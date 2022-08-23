@@ -1,4 +1,4 @@
-﻿using AkWWISE.Core.Model.Nodes;
+﻿using AkWWISE.Core.Nodes;
 using AkWWISE.IO.Interfaces;
 
 namespace AkWWISE.Containers.SoundBank

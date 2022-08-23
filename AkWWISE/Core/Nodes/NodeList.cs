@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AkWWISE.Core.Nodes
 {
-	internal class NodeList<TElement> : NodeElement, IEnumerable<TElement>
+	public class NodeList<TElement> : NodeElement, IEnumerable<TElement>
 	where TElement : NodeElement
 	{
 		public const string FIELD_NAME = "list";

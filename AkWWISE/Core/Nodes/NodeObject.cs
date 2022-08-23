@@ -5,7 +5,7 @@ using AkWWISE.Core.Interfaces;
 using AkWWISE.Core.Nodes;
 using AkWWISE.IO.Interfaces;
 
-namespace AkWWISE.Core.Model.Nodes
+namespace AkWWISE.Core.Nodes
 {
 	public abstract class NodeObject<TRoot> : NodeElement, IEnumerable<KeyValuePair<string, NodeElement>>, IVisitor
 	where TRoot : NodeRoot<TRoot>

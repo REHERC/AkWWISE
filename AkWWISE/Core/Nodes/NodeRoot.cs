@@ -1,4 +1,4 @@
-﻿namespace AkWWISE.Core.Model.Nodes
+﻿namespace AkWWISE.Core.Nodes
 {
 	public abstract class NodeRoot<TRoot> : NodeObject<TRoot>
 	where TRoot : NodeRoot<TRoot>
