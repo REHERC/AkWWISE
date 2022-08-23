@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AkWWISE.Core.DataStruct;
 using AkWWISE.Core.Interfaces;
-using AkWWISE.Core.Nodes;
 using AkWWISE.IO.Interfaces;
 
 namespace AkWWISE.Core.Nodes
@@ -123,7 +122,7 @@ namespace AkWWISE.Core.Nodes
 		public NodeField<byte> U8(string name, byte value)
 		=> Field(name, value);
 
-		public NodeField<FourCC> FCC(string name, FourCC value)
+		public NodeField<FourCC> FourCC(string name, FourCC value)
 		=> Field(name, value);
 
 		public NodeField<uint> SID(string name, uint value)
