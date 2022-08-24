@@ -58,9 +58,21 @@ public static class NodeEx
 	public static NodeField<uint> SID<T>(this NodeObject<T> node, string name, IReader reader)
 	where T : NodeRoot<T>
 	=> node.U32(name, reader);
-	
+
 	public static NodeField<uint> TID<T>(this NodeObject<T> node, string name, IReader reader)
 	where T : NodeRoot<T>
 	=> node.SID(name, reader);
+
+	public static NodeField<string> STR<T>(this NodeObject<T> node, string name, int length, IReader reader)
+	where T : NodeRoot<T>
+	=> node.STR(name, reader.ReadSTR(length));
+
+	public static NodeField<string> S32STR<T>(this NodeObject<T> node, string name, IReader reader)
+	where T : NodeRoot<T>
+	=> node.STR(name, reader.ReadS32(), reader);
+
+	public static NodeField<string> STZ<T>(this NodeObject<T> node, string name, IReader reader)
+	where T : NodeRoot<T>
+	=> node.STR(name, reader.ReadSTZ());
 	#endregion
 }
