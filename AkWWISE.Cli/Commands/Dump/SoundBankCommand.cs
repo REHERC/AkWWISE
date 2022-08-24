@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AkWWISE.Cli.Services;
 using AkWWISE.Containers.SoundBank;
 using CliFx;
 using CliFx.Attributes;
@@ -12,6 +13,7 @@ namespace AkWWISE.Cli.Commands.Dump
 	[Command("soundbank", Description = "Load one or more WWISE .bnk soundbanks")]
 	public class SoundBankCommand : ICommand
 	{
+		#region Command Parameters and Options
 		[CommandOption("folders", 'f', Description = "Indicates if the paths specified are folders instead of files")]
 		public bool ScanFolders { get; set; }
 		
@@ -22,6 +24,9 @@ namespace AkWWISE.Cli.Commands.Dump
 		=> ScanFolders
 			? Items.SelectMany(item => new DirectoryInfo(item).GetFiles("*.bnk"))
 			: Items.Select(item => new FileInfo(item));
+		#endregion
+
+		protected static readonly NodePrinter printer = new NodePrinter();
 
 		public ValueTask ExecuteAsync(IConsole console)
 		{
@@ -33,9 +38,9 @@ namespace AkWWISE.Cli.Commands.Dump
 
 			foreach (AkSoundBank soundbank in soundbanks)
 			{
-				console.Output.WriteLine($"=== {soundbank.BankName} ===");
+				string hierarchy = printer.GetString(soundbank);
+				console.Output.WriteLine(hierarchy);
 			}
-
 
 			return default;
 		}
