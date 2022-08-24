@@ -11,17 +11,31 @@ namespace AkWWISE.Containers.SoundBank
 {
 	public class AkSoundBank : NodeRoot<AkSoundBank>
 	{
-		private readonly IDictionary<string, AkChunkBase> chunks;
+		#region Properties and Fields
+		private readonly IDictionary<string, ChunkBase> chunks;
 
 		public string BankName { get; }
+		#endregion
+
+		#region Chunks
+		public AkBKHD BKHD => GetChunk<AkBKHD>(ChunkType.BKHD);
+
+		public AkPLAT PLAT => GetChunk<AkPLAT>(ChunkType.PLAT);
+		#endregion
 
 		public AkSoundBank(string bankName = "") : base()
 		{
 			BankName = bankName;
-			chunks = new AkChunkBase[]
+			chunks = new ChunkBase[]
 			{
-				new AkBKHD(this)
-			}.ToDictionary(chunk => chunk.Header.Text.ToLower(), chunk => chunk);
+				new AkBKHD(this),
+				new AkPLAT(this)
+			}.ToDictionary(chunk => chunk.Header.Text, chunk => chunk);
+
+			foreach (KeyValuePair<string, ChunkBase> chunk in chunks)
+			{
+				Set(chunk.Key, chunk.Value);
+			}
 		}
 
 		#region Visit
@@ -35,14 +49,14 @@ namespace AkWWISE.Containers.SoundBank
 		{
 			FourCC header = reader.Peek4CC();
 
-			if (AkChunkType.AKBK.ChunkHeader == header)
+			if (ChunkType.AKBK.Header == header)
 			{
 				reader.ReadGAP(DataType.TYPE_U32);
 				reader.GuessEndianness(0x10);
 				header = reader.Peek4CC();
 			}
 
-			if (AkChunkType.BKHD.ChunkHeader != header)
+			if (ChunkType.BKHD.Header != header)
 			{
 				throw new InvalidDataException("Unable to find BKHD header.");
 			}
@@ -66,7 +80,7 @@ namespace AkWWISE.Containers.SoundBank
 
 			long nextChunk = reader.Position + length + sizeof(uint);
 
-			AkChunkBase chunk = this[header];
+			ChunkBase chunk = this[header];
 			if (chunk is null)
 			{
 				reader.Seek(nextChunk);
@@ -78,16 +92,18 @@ namespace AkWWISE.Containers.SoundBank
 		}
 		#endregion
 
-		public AkChunkBase this[FourCC header]
+		public override string ToNodeString() => $"{NodeName} ({BankName})";
+
+		public TChunk GetChunk<TChunk>(FourCC header)
+		where TChunk : ChunkBase
 		{
-			get
+			if (chunks.TryGetValue(header, out ChunkBase chunk))
 			{
-				if (chunks.TryGetValue(header, out AkChunkBase chunk))
-				{
-					return chunk;
-				}
-				return null;
+				return chunk as TChunk;
 			}
+			return null;
 		}
+
+		public ChunkBase this[FourCC header] => GetChunk<ChunkBase>(header);
 	}
 }
