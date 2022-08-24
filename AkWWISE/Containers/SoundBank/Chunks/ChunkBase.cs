@@ -32,6 +32,6 @@ namespace AkWWISE.Containers.SoundBank.Chunks
 			Length = reader.ReadU32();
 		}
 
-		public override string ToNodeString() => $"{NodeName} ({Length} bytes)";
+		public override string ToNodeString() => $"{NodeName} ({Length} bytes) - {Type.FriendlyName}";
 	}
 }
