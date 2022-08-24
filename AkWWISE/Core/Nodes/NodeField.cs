@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AkWWISE.Core.Nodes
 {
@@ -7,6 +8,8 @@ namespace AkWWISE.Core.Nodes
 		public const string FIELD_NAME = "field";
 
 		public TData Value { get; protected set; }
+
+		public Type Type => typeof(TData);
 
 		public NodeField(TData value)
 		: base(FIELD_NAME)
@@ -20,6 +23,8 @@ namespace AkWWISE.Core.Nodes
 		=> -1937169414 + EqualityComparer<TData>.Default.GetHashCode(Value);
 
 		public override string ToString() => Value.ToString();
+
+		public override string ToNodeString() => $"{this} ({Type.Name})";
 
 		public static implicit operator TData(NodeField<TData> field) => field.Value;
 	}

@@ -28,13 +28,19 @@ namespace AkWWISE.Core.Nodes
 		#region Constructors
 		protected NodeElement(NodeElement parent = null)
 		: this(null, parent)
-		{
-			NodeName = GetType().Name;
+		{;
 		}
 
 		protected NodeElement(string name, NodeElement parent = null)
 		{
-			NodeName = name;
+			if (string.IsNullOrEmpty(name))
+			{
+				NodeName = GetType().Name;
+			}
+			else
+			{
+				NodeName = name;
+			}
 			Parent = parent;
 		}
 		#endregion
@@ -49,6 +55,7 @@ namespace AkWWISE.Core.Nodes
 
 			Set(name, node);
 		}
+
 		#region Data Handling 
 		public bool ContainsKey(string key) => values.ContainsKey(key);
 
@@ -83,7 +90,8 @@ namespace AkWWISE.Core.Nodes
 		}
 
 		public IDictionary<string, NodeElement> ToDictionary() => new ReadOnlyDictionary<string, NodeElement>(values);
-
+		#endregion
+	
 		#region Interface Implementations
 		#region IEnumerator<KeyValuePair<string, NodeElement>>
 		public IEnumerator<KeyValuePair<string, NodeElement>> GetEnumerator() => values.GetEnumerator();
@@ -91,6 +99,9 @@ namespace AkWWISE.Core.Nodes
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		#endregion
 		#endregion
+
+		#region Virtual Methods
+		public virtual string ToNodeString() => NodeName;
 		#endregion
 		#endregion
 	}

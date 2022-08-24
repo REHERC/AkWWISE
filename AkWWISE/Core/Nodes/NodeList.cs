@@ -7,8 +7,6 @@ namespace AkWWISE.Core.Nodes
 	public class NodeList<TElement> : NodeElement, IEnumerable<TElement>
 	where TElement : NodeElement
 	{
-		public const string FIELD_NAME = "list";
-
 		public new IList<TElement> Children
 		=> base.Children
 		.OfType<TElement>()
@@ -28,5 +26,7 @@ namespace AkWWISE.Core.Nodes
 
 		IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
 		=> Children.GetEnumerator();
+
+		public override string ToNodeString() => $"{NodeName} ({Children.Count})";
 	}
 }
