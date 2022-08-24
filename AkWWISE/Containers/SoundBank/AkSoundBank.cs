@@ -31,11 +31,6 @@ namespace AkWWISE.Containers.SoundBank
 				new AkBKHD(this),
 				new AkPLAT(this)
 			}.ToDictionary(chunk => chunk.Header.Text, chunk => chunk);
-
-			foreach (KeyValuePair<string, ChunkBase> chunk in chunks)
-			{
-				Set(chunk.Key, chunk.Value);
-			}
 		}
 
 		#region Visit
@@ -87,6 +82,7 @@ namespace AkWWISE.Containers.SoundBank
 				return;
 			}
 
+			Set(chunk.Header, chunk);
 			chunk.Visit(reader);
 			reader.Seek(nextChunk);
 		}
