@@ -16,13 +16,16 @@ namespace AkWWISE.Cli.Commands.Dump
 		#region Command Parameters and Options
 		[CommandOption("folders", 'f', Description = "Indicates if the paths specified are folders instead of files")]
 		public bool ScanFolders { get; set; }
-		
+
+		[CommandOption("recursive", 'r', Description = "If used with '-f', subfolders will be scanned recursively")]
+		public bool Recursive { get; set; }
+
 		[CommandParameter(0, IsRequired = true, Name = "items", Description = "Location of the files to be loaded")]
 		public IReadOnlyList<string> Items { get; set; }
 
 		public IEnumerable<FileInfo> Files
 		=> ScanFolders
-			? Items.SelectMany(item => new DirectoryInfo(item).GetFiles("*.bnk"))
+			? Items.SelectMany(item => new DirectoryInfo(item).GetFiles("*.bnk", Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
 			: Items.Select(item => new FileInfo(item));
 		#endregion
 
