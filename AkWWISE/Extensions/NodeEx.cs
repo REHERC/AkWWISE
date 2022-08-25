@@ -71,8 +71,12 @@ public static class NodeEx
 	where T : NodeRoot<T>
 	=> node.STR(name, reader.ReadS32(), reader);
 
+	public static NodeField<string> U32STR<T>(this NodeObject<T> node, string name, IReader reader)
+	where T : NodeRoot<T>
+	=> node.STR(name, (int)reader.ReadU32(), reader);
+
 	public static NodeField<string> STZ<T>(this NodeObject<T> node, string name, IReader reader)
 	where T : NodeRoot<T>
-	=> node.STR(name, reader.ReadSTZ());
+	=> node.STZ(name, reader.ReadSTZ());
 	#endregion
 }

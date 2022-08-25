@@ -20,6 +20,10 @@ namespace AkWWISE.Containers.SoundBank
 		#region Chunks
 		public AkBKHD BKHD => GetChunk<AkBKHD>(ChunkType.BKHD);
 
+		public AkINIT INIT => GetChunk<AkINIT>(ChunkType.INIT);
+
+		public AkDIDX DIDX => GetChunk<AkDIDX>(ChunkType.DIDX);
+
 		public AkPLAT PLAT => GetChunk<AkPLAT>(ChunkType.PLAT);
 		#endregion
 
@@ -29,8 +33,9 @@ namespace AkWWISE.Containers.SoundBank
 			chunks = new ChunkBase[]
 			{
 				new AkBKHD(this),
+				new AkINIT(this),
+				new AkDIDX(this),
 				new AkPLAT(this),
-				new AkDIDX(this)
 			}.ToDictionary(chunk => chunk.Header.Text, chunk => chunk);
 		}
 
@@ -69,6 +74,7 @@ namespace AkWWISE.Containers.SoundBank
 		protected void VisitChunk(IReader reader)
 		{
 			FourCC header = reader.Read4CC(); // Find chunk type
+			System.Console.WriteLine($">> {header}");
 
 			reader.PushOffset();
 			uint length = reader.ReadU32();

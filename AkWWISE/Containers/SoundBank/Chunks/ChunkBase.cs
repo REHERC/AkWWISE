@@ -4,7 +4,7 @@ using AkWWISE.IO.Interfaces;
 
 namespace AkWWISE.Containers.SoundBank.Chunks
 {
-	public abstract class ChunkBase : NodeObject<AkSoundBank>
+	public abstract class ChunkBase : AkSoundBankObject
 	{
 		#region Properties
 		public abstract ChunkType Type { get; }
@@ -16,10 +16,6 @@ namespace AkWWISE.Containers.SoundBank.Chunks
 		public string Description => Type.FriendlyName;
 
 		public uint Length { get; private set; }
-		#endregion
-
-		#region Shared Chunk Data
-		public virtual uint AkVersion => Root.BKHD.AkVersion;
 		#endregion
 
 		public ChunkBase(AkSoundBank parent)

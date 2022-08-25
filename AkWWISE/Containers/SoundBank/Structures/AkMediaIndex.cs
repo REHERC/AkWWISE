@@ -3,7 +3,7 @@ using AkWWISE.IO.Interfaces;
 
 namespace AkWWISE.Containers.SoundBank.Structures
 {
-	public class AkMediaIndex : NodeObject<AkSoundBank>
+	public class AkMediaIndex : AkSoundBankObject
 	{
 		public uint Id => GetField<uint>("id");
 
