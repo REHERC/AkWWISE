@@ -29,7 +29,8 @@ namespace AkWWISE.Containers.SoundBank
 			chunks = new ChunkBase[]
 			{
 				new AkBKHD(this),
-				new AkPLAT(this)
+				new AkPLAT(this),
+				new AkDIDX(this)
 			}.ToDictionary(chunk => chunk.Header.Text, chunk => chunk);
 		}
 

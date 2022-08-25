@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AkWWISE.IO.Interfaces;
+﻿using AkWWISE.IO.Interfaces;
 
 namespace AkWWISE.Containers.SoundBank.Chunks
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AkWWISE.Containers.SoundBank.Structures;
 using AkWWISE.Core.DataStruct;
 using AkWWISE.Core.Interfaces;
 using AkWWISE.IO.Interfaces;
@@ -11,15 +12,15 @@ namespace AkWWISE.Core.Nodes
 	where TRoot : NodeRoot<TRoot>
 	{
 		#region Fields and Properties		
-		public new NodeObject<TRoot> Parent 
+		public new NodeObject<TRoot> Parent
 		{
 			get => base.Parent as NodeObject<TRoot>;
-			protected set => base.Parent = value; 
+			protected set => base.Parent = value;
 		}
 
 		public TRoot Root { get; protected set; }
 
-		public new IList<NodeObject<TRoot>> Children 
+		public new IList<NodeObject<TRoot>> Children
 		=> base.Children
 		.OfType<NodeObject<TRoot>>()
 		.Cast<NodeObject<TRoot>>()
@@ -70,11 +71,34 @@ namespace AkWWISE.Core.Nodes
 			return null;
 		}
 
+		public NodeList<T> GetList<T>(string key)
+		where T : NodeElement
+		{
+			NodeElement element = Get(key);
+			if (element is NodeList<T> list)
+			{
+				return list;
+			}
+			return null;
+		}
+
 		public bool TryGetField<T>(string key, out NodeField<T> value)
 		{
 			if (TryGet(key, out NodeElement result) && result is NodeField<T> field)
 			{
 				value = field;
+				return true;
+			}
+			value = default;
+			return false;
+		}
+
+		public bool TryGetList<T>(string key, out NodeList<T> value)
+		where T : NodeElement
+		{
+			if (TryGet(key, out NodeElement result) && result is NodeList<T> list)
+			{
+				value = list;
 				return true;
 			}
 			value = default;
@@ -131,9 +155,14 @@ namespace AkWWISE.Core.Nodes
 		public NodeField<uint> TID(string name, uint value)
 		=> SID(name, value);
 
-		public NodeList<TElement> List<TElement>(string name, int count, Func<TElement> provider)
+		public IEnumerable<TElement> List<TElement>(string name, int count, Func<TElement> provider)
 		where TElement : NodeElement
-		=> Field(name, new NodeList<TElement>(provider, count));
+		{
+			NodeList<TElement> list = new NodeList<TElement>(provider, count);
+			Field(name, list);
+			return list;
+		}
+
 
 		protected NodeField<T> Field<T>(string name, T value)
 		=> Set(name, value) as NodeField<T>;
