@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AkWWISE.Containers.SoundBank.Structures;
 using AkWWISE.Core.DataStruct;
 using AkWWISE.Core.Interfaces;
 using AkWWISE.IO.Interfaces;
