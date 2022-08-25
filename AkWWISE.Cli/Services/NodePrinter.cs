@@ -32,16 +32,27 @@ namespace AkWWISE.Cli.Services
 				}
 			}
 
+			Func<string, string, string> formatter = FormatNodeName;
+			Type nodeType = node.GetType();
+			if (nodeType.IsSubClassOfRawGeneric(typeof(NodeList<>)))
+			{
+				formatter = FormatListEntryName;
+			}
+
 			foreach (KeyValuePair<string, NodeElement> property in node)
 			{
 				string name = property.Key;
 				NodeElement subNode = property.Value;
 				string value = subNode.ToNodeString();
 
-				Write($"- {name}: {value}");
+				Write(formatter(name, value));
 
 				Print(sb, subNode, depth + 1);
 			}
 		}
+
+		protected string FormatNodeName(string name, string value) => $"- {name}: {value}";
+
+		protected string FormatListEntryName(string name, string value) => $"[{name}] {value}";
 	}
 }
